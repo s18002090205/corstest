@@ -8,23 +8,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = {"http://127.0.0.1:5500"},allowCredentials = "true")
 @RestController
 public class TestController {
+
+
 
     @Autowired
     LvliRepository lvliRepository;
 
     @RequestMapping(value = "/addlvli")
     public void addlvli(String lvli) {
-        Lvli lvli1 = new Lvli("1200",lvli);
+        Lvli lvli1=new Lvli("1202",lvli);
+
         this.lvliRepository.save(lvli1);
     }
 
     @RequestMapping(value = "/lvlilist")
-    public List<Lvli> addlvli() {
+    public List<Lvli> getlvlilist() {
         return this.lvliRepository.findAll();
     }
 
@@ -32,6 +38,7 @@ public class TestController {
     public Map<String, String> userinfo(HttpServletRequest httpServletRequest) {
 
         Map<String, String> resultMap = new HashMap<>();
+        //判断是否已经登陆,判断SESSION里面是否有我的用户名信息
         if (httpServletRequest.getSession().getAttribute("loginnumber") != null) {
             resultMap.put("myname", (String) httpServletRequest.getSession(true).getAttribute("loginnumber"));
             resultMap.put("mynumber", (String) httpServletRequest.getSession(true).getAttribute("username"));
